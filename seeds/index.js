@@ -2,16 +2,16 @@ if(process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 const mongoose = require('mongoose');
-const Ticket = require('../models/AppSchema')
-const Account = require('../models/AccountSchema')
-const axios = require('axios')
+const Ticket = require('../models/AppSchema');
+const Account = require('../models/AccountSchema');
+const bcrypt = require('bcrypt');
 
-const MONGO_URL=process.env.MONGO_URL;
-mongoose.connect(MONGO_URL,{
+const MONGO_URL = process.env.MONGO_URL;
+mongoose.connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
-  
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console,"connection error:"));
 db.once("open", () => {
@@ -20,41 +20,66 @@ db.once("open", () => {
 
 const seedDB = async() => {
     await Ticket.deleteMany();
-    for(let i=0;i<5;i++){
+    const descriptions = [
+        "Server is down",
+        "Payment gateway is not working",
+        "Images are not loading",
+        "Invalid data validation error",
+        "Performance is slow",
+        "Security vulnerability found"
+    ];
+    for(let i = 0; i < 5; i++){
         const ticket = new Ticket({
-            Description: 'Hello World',
+            Description: descriptions[Math.floor(Math.random() * descriptions.length)],
             Developer: "Paul",
             Priority: 'Critical',
-        })
+        });
         await ticket.save();
         console.log(ticket);
     }
 }
 
-
-
 const seed2DB = async() => {
     await Account.deleteMany();
-    for(let i=0;i<5;i++){
+    const roles = ["Team Leader", "Developer"];
+    const users = [
+        {name: "John Doe", email: "johndoe@example.com", password: "johndoe"},
+        {name: "Jane Doe", email: "janedoe@example.com", password: "janedoe"},
+        {name: "Bob Smith", email: "bobsmith@example.com", password: "bobsmith"},
+        {name: "Alice Johnson", email: "alicejohnson@example.com", password: "alicejohnson"},
+        {name: "Tom Williams", email: "tomwilliams@example.com", password: "tomwilliams"},
+    ];
+    const hashedPassword = await bcrypt.hash("teamleader", 10);
+    const teamLeader = new Account({
+        Email: 'teamleader@example.com',
+        Password: hashedPassword,
+        Name: 'Team Leader',
+        Role: 'Team Leader'
+    });
+    await teamLeader.save();
+    console.log(teamLeader);
+    for(let i = 0; i < users.length; i++){
+        const {name, email, password} = users[i];
+        const hashedPassword = await bcrypt.hash(password, 10);
         const account = new Account({
-            Email: 'christian.seguiza@yahoo.com',
-            Password: "Paul",
-            Name: 'Paul Seguiza',
-            Role: 'Developer'
-        })
+            Email: email,
+            Password: hashedPassword,
+            Name: name,
+            Role: roles[Math.floor(Math.random() * roles.length)]
+        });
         await account.save();
         console.log(account);
     }
 }
 
-seedDB().then( () =>{
-    mongoose.connection.close();
+seedDB().then(() => {
+    console.log("Tickets seeded successfully");
 }).catch((err) => {
     console.error(err);
 });
 
-seed2DB().then( () =>{
-    mongoose.connection.close();
+seed2DB().then(() => {
+    console.log("Accounts seeded successfully");
 }).catch((err) => {
     console.error(err);
-});
+})
