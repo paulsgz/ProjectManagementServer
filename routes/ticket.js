@@ -3,7 +3,7 @@ if(process.env.NODE_ENV !== "production") {
 }
 const express = require('express');
 const router = express.Router();
-const Ticket = require('../models/AppSchema')
+const Ticket = require('../models/AppSchema');
 const cors = require('cors');
 
 router.use(cors());

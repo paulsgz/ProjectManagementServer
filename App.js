@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const tickets = require('./routes/ticket.js')
+const accounts = require('./routes/accounts.js')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -21,6 +22,11 @@ db.once("open", () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 app.use('/', tickets);
+app.use('/', accounts);
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Internal Server Error');
+});
 
 app.use(cors({
     origin:"http://localhost:3000",
