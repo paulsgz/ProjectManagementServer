@@ -21,7 +21,8 @@ router.get('/', async (req, res) => {
     const ticket = new Ticket({
         Description: req.body.description,
         Developer: req.body.developer,
-        Priority: req.body.priority
+        Priority: req.body.priority,
+        Status: req.body.status
     })
     console.log(ticket);
     await ticket.save();

@@ -28,11 +28,14 @@ const seedDB = async() => {
         "Performance is slow",
         "Security vulnerability found"
     ];
-    for(let i = 0; i < 5; i++){
+    const priorities = ['Critical', 'High', 'Medium', 'Low'];
+    const statuses = ['To do', 'In progress', 'In review', 'Finished'];
+    for(let i = 0; i < 10; i++){
         const ticket = new Ticket({
             Description: descriptions[Math.floor(Math.random() * descriptions.length)],
             Developer: "Paul",
-            Priority: 'Critical',
+            Priority: priorities[Math.floor(Math.random() * priorities.length)],
+            Status: statuses[Math.floor(Math.random() * statuses.length)],
         });
         await ticket.save();
         console.log(ticket);
@@ -41,7 +44,7 @@ const seedDB = async() => {
 
 const seed2DB = async() => {
     await Account.deleteMany();
-    const roles = ["Team Leader", "Developer"];
+    const roles = ["team leader", "Developer"];
     const users = [
         {name: "John Doe", email: "johndoe@example.com", password: "johndoe"},
         {name: "Jane Doe", email: "janedoe@example.com", password: "janedoe"},
@@ -54,7 +57,7 @@ const seed2DB = async() => {
         Email: 'teamleader@example.com',
         Password: hashedPassword,
         Name: 'Team Leader',
-        Role: 'Team Leader'
+        Role: 'team leader'
     });
     await teamLeader.save();
     console.log(teamLeader);
