@@ -33,4 +33,23 @@ router.delete('/:id',async(req,res) => {
   await Ticket.findByIdAndDelete(id);
 })
 
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const ticket = await Ticket.findById(id);
+    if (!ticket) {
+      return res.status(404).send('Ticket not found');
+    }
+    ticket.Description = req.body.description || ticket.Description;
+    ticket.Developer = req.body.developer || ticket.Developer;
+    ticket.Priority = req.body.priority || ticket.Priority;
+    ticket.Status = req.body.status || ticket.Status;
+    await ticket.save();
+    res.json(ticket);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 module.exports = router;

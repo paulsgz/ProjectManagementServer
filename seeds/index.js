@@ -26,19 +26,60 @@ const seedDB = async() => {
         "Images are not loading",
         "Invalid data validation error",
         "Performance is slow",
-        "Security vulnerability found"
+        "Security vulnerability found",
+        "Database connection issue",
+        "Incorrect user input",
+        "Authorization error",
+        "Compatibility issue",
+        "API endpoint not responding",
+        "Network connectivity issue",
+        "File upload problem",
+        "Email service not working",
+        "Server configuration issue",
+        "Third-party service integration problem",
+        "User interface not functioning",
+        "Mobile app crashing",
+        "Page layout issue",
+        "Database performance issue",
+        "Code syntax error",
+        "Memory leak problem",
+        "DNS resolution issue",
+        "Backup and recovery problem",
+        "Browser compatibility issue",
+        "404 error",
+        "500 error",
+        "502 error",
+        "503 error",
+        "504 error"
     ];
     const priorities = ['Critical', 'High', 'Medium', 'Low'];
     const statuses = ['To do', 'In progress', 'In review', 'Finished'];
-    for(let i = 0; i < 10; i++){
+    const todoCount = 7;
+    const inProgressCount = 4;
+    const inReviewCount = 5;
+    const finishedCount = 3;
+    let statusIndex = 0;
+    const developers = ["Paul", "John", "Jane", "Bob", "Alice", "Tom"];
+    let developerIndex = 0;
+    for(let i = 0; i < todoCount + inProgressCount + inReviewCount + finishedCount; i++){
+        const status = statuses[statusIndex];
         const ticket = new Ticket({
-            Description: descriptions[Math.floor(Math.random() * descriptions.length)],
-            Developer: "Paul",
+            Description: descriptions[i],
+            Developer:  developers[developerIndex],
             Priority: priorities[Math.floor(Math.random() * priorities.length)],
-            Status: statuses[Math.floor(Math.random() * statuses.length)],
+            Status: status,
         });
         await ticket.save();
         console.log(ticket);
+        developerIndex = (developerIndex + 1) % developers.length;
+        
+        if (statusIndex === 0 && i >= todoCount) {
+            statusIndex++;
+        } else if (statusIndex === 1 && i >= todoCount + inProgressCount) {
+            statusIndex++;
+        } else if (statusIndex === 2 && i >= todoCount + inProgressCount + inReviewCount) {
+            statusIndex++;
+        }
     }
 }
 
