@@ -7,6 +7,7 @@ const TicketSchema = new Schema({
     Developer: String,
     Priority: String,
     Status: String,
+    Date: String
 })
 
 module.exports = mongoose.model('Ticket', TicketSchema);

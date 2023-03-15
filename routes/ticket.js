@@ -22,7 +22,8 @@ router.get('/', async (req, res) => {
         Description: req.body.description,
         Developer: req.body.developer,
         Priority: req.body.priority,
-        Status: req.body.status
+        Status: req.body.status,
+        Date: req.body.date
     })
     console.log(ticket);
     await ticket.save();
@@ -44,6 +45,7 @@ router.patch('/:id', async (req, res) => {
     ticket.Developer = req.body.developer || ticket.Developer;
     ticket.Priority = req.body.priority || ticket.Priority;
     ticket.Status = req.body.status || ticket.Status;
+    ticket.Date= req.body.date || ticket.Date;
     await ticket.save();
     res.json(ticket);
   } catch (err) {

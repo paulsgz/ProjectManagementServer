@@ -61,13 +61,16 @@ const seedDB = async() => {
     let statusIndex = 0;
     const developers = ["Paul", "John", "Jane", "Bob", "Alice", "Tom"];
     let developerIndex = 0;
+    const today = new Date();
     for(let i = 0; i < todoCount + inProgressCount + inReviewCount + finishedCount; i++){
         const status = statuses[statusIndex];
+        const date = new Date(today.getTime() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000)); // Generate random date within past month
         const ticket = new Ticket({
             Description: descriptions[i],
             Developer:  developers[developerIndex],
             Priority: priorities[Math.floor(Math.random() * priorities.length)],
             Status: status,
+            Date: date.toLocaleDateString() // Store date as ISO string
         });
         await ticket.save();
         console.log(ticket);
@@ -82,6 +85,7 @@ const seedDB = async() => {
         }
     }
 }
+
 
 const seed2DB = async() => {
     await Account.deleteMany();
