@@ -3,7 +3,7 @@ if(process.env.NODE_ENV !== "production") {
 }
 const express = require('express');
 const router = express.Router();
-const Ticket = require('../models/AppSchema');
+const {Ticket }= require('../models/AppSchema');
 const cors = require('cors');
 
 router.use(cors());
@@ -23,7 +23,8 @@ router.get('/', async (req, res) => {
         Developer: req.body.developer,
         Priority: req.body.priority,
         Status: req.body.status,
-        Date: req.body.date
+        Date: req.body.date,
+        Project:req.body.project
     })
     console.log(ticket);
     await ticket.save();
@@ -45,7 +46,6 @@ router.patch('/:id', async (req, res) => {
     ticket.Developer = req.body.developer || ticket.Developer;
     ticket.Priority = req.body.priority || ticket.Priority;
     ticket.Status = req.body.status || ticket.Status;
-    ticket.Date= req.body.date || ticket.Date;
     await ticket.save();
     res.json(ticket);
   } catch (err) {

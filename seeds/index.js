@@ -2,7 +2,7 @@ if(process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 const mongoose = require('mongoose');
-const Ticket = require('../models/AppSchema');
+const {Ticket} = require('../models/AppSchema');
 const Account = require('../models/AccountSchema');
 const bcrypt = require('bcrypt');
 
