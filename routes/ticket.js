@@ -29,6 +29,7 @@ router.get('/projects', async (req, res) => {
   });
 
   router.post('/create', cors(),async (req,res) => {
+    try {
     const ticket = new Ticket({
         Description: req.body.description,
         Developer: req.body.developer,
@@ -39,6 +40,10 @@ router.get('/projects', async (req, res) => {
     })
     console.log(ticket);
     await ticket.save();
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Internal Server Error');
+  }
 })
 
 router.post('/createProject', cors(),async (req,res) => {
