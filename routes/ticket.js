@@ -3,7 +3,8 @@ if(process.env.NODE_ENV !== "production") {
 }
 const express = require('express');
 const router = express.Router();
-const {Ticket }= require('../models/AppSchema');
+const Ticket = require('../models/AppSchema');
+const Project = require('../models/projectSchema');
 const cors = require('cors');
 
 router.use(cors());
@@ -11,6 +12,16 @@ router.get('/', async (req, res) => {
     try {
       const tickets = await Ticket.find({});
       res.json(tickets);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+
+router.get('/projects', async (req, res) => {
+    try {
+      const projects = await Project.find({});
+      res.json(projects);
     } catch (err) {
       console.log(err);
       res.status(500).send('Internal Server Error');
@@ -30,9 +41,22 @@ router.get('/', async (req, res) => {
     await ticket.save();
 })
 
+router.post('/createProject', cors(),async (req,res) => {
+  const project = new Project({
+      Name: req.body.project,
+  })
+  console.log(project);
+  await project.save();
+})
+
 router.delete('/:id',async(req,res) => {
   const { id }  = req.params;
   await Ticket.findByIdAndDelete(id);
+})
+
+router.delete('/projects/:id',async(req,res) => {
+  const { id }  = req.params;
+  await Project.findByIdAndDelete(id);
 })
 
 router.patch('/:id', async (req, res) => {
