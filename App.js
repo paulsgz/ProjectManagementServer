@@ -1,6 +1,3 @@
-if(process.env.NODE_ENV !== "production") {
-    require('dotenv').config();
-}
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -8,9 +5,8 @@ const tickets = require('./routes/ticket.js')
 const accounts = require('./routes/accounts.js')
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-mongoose.connect(process.env.MONGO_URL,{
-    
+const mongoDb = process.env.MONGO_URL
+mongoose.connect(mongoDb,{ 
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
