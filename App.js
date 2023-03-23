@@ -5,8 +5,8 @@ const tickets = require('./routes/ticket.js')
 const accounts = require('./routes/accounts.js')
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const mongoDb = process.env.MONGO_URL
-mongoose.connect(mongoDb,{ 
+
+mongoose.connect('mongodb+srv://paulsgz:Cp12311999@cluster0.cyclwir.mongodb.net/?retryWrites=true&w=majority',{ 
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
