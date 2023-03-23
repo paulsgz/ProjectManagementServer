@@ -8,7 +8,7 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 
 router.use(cors());
-router.get('/accounts', async (req, res) => {
+router.get('/accounts', cors(),async (req, res) => {
     try {
       const accounts = await Account.find({});
       res.json(accounts);
@@ -47,7 +47,7 @@ router.get('/accounts', async (req, res) => {
     }
   });
 
-  router.post('/login', async (req, res) => {
+  router.post('/login', cors(),async (req, res) => {
     const { email, password } = req.body;
   
     try {

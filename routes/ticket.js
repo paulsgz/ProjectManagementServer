@@ -54,17 +54,17 @@ router.post('/createProject', cors(),async (req,res) => {
   await project.save();
 })
 
-router.delete('/:id',async(req,res) => {
+router.delete('/:id',cors(),async(req,res) => {
   const { id }  = req.params;
   await Ticket.findByIdAndDelete(id);
 })
 
-router.delete('/projects/:id',async(req,res) => {
+router.delete('/projects/:id',cors(),async(req,res) => {
   const { id }  = req.params;
   await Project.findByIdAndDelete(id);
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id',cors(), async (req, res) => {
   const { id } = req.params;
   try {
     const ticket = await Ticket.findById(id);
