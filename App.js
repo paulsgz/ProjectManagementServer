@@ -29,11 +29,11 @@ app.use((err, req, res, next) => {
 });
 
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin:"https://pmt-pro.onrender.com",
     credentials:true,   
 }))
 
-const port = process.env.PORT || 5000;
+const port = "https://pmtserver.onrender.com"
 app.listen(port, (req,res) => {
     console.log(`Server running on port ${port}`)
 })
