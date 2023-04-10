@@ -1,13 +1,16 @@
 if(process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
+// This code imports the Express.js library and creates a new router instance.
 const express = require('express');
 const router = express.Router();
+// This code imports the Mongoose schemas for tickets and projects.
 const Ticket = require('../models/AppSchema');
 const Project = require('../models/projectSchema');
 const cors = require('cors');
 
 router.use(cors());
+// This code defines a GET route for retrieving all tickets from the database. The route returns a JSON array of tickets or a 500 Internal Server Error if an error occurs.
 router.get('/', async (req, res) => {
     try {
       const tickets = await Ticket.find({});
@@ -18,6 +21,7 @@ router.get('/', async (req, res) => {
     }
   });
 
+  // This code defines a GET route for retrieving all projects from the database. The route returns a JSON array of projects or a 500 Internal Server Error if an error occurs.
 router.get('/projects', async (req, res) => {
     try {
       const projects = await Project.find({});
@@ -28,6 +32,7 @@ router.get('/projects', async (req, res) => {
     }
   });
 
+  // This code defines a POST route for creating a new ticket.
   router.post('/create', cors(),async (req,res) => {
     try {
     const ticket = new Ticket({
@@ -46,6 +51,7 @@ router.get('/projects', async (req, res) => {
   }
 })
 
+// This code defines a POST route for creating a new project. 
 router.post('/createProject', cors(),async (req,res) => {
   const project = new Project({
       Name: req.body.project,
