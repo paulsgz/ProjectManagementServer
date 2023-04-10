@@ -1,26 +1,32 @@
+// Check if environment is not production and load environment variables from .env file
 if(process.env.NODE_ENV !== "production") {
     require('dotenv').config();
-}
-const mongoose = require('mongoose');
-const Ticket = require('../models/AppSchema');
-const Project= require('../models/projectSchema');
-const Account = require('../models/AccountSchema');
-const bcrypt = require('bcrypt');
-
-const MONGO_URL = process.env.MONGO_URL;
-mongoose.connect(MONGO_URL, {
+    }
+    
+    // Import required libraries and models
+    const mongoose = require('mongoose');
+    const Ticket = require('../models/AppSchema');
+    const Project= require('../models/projectSchema');
+    const Account = require('../models/AccountSchema');
+    const bcrypt = require('bcrypt');
+    
+    // Connect to MongoDB using the MONGO_URL from environment variables
+    const MONGO_URL = process.env.MONGO_URL;
+    mongoose.connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
-
-const db = mongoose.connection;
-db.on("error", console.error.bind(console,"connection error:"));
-db.once("open", () => {
+    });
+    
+    // Setup event listeners for the MongoDB connection
+    const db = mongoose.connection;
+    db.on("error", console.error.bind(console,"connection error:"));
+    db.once("open", () => {
     console.log("Database Connected");
-});
-
-const projects = ['Project A', 'Project B', 'Project C', 'Project D',];
-const descriptions = [
+    });
+    
+    // Define arrays for project names, problem descriptions, priorities and statuses
+    const projects = ['Project A', 'Project B', 'Project C', 'Project D',];
+    const descriptions = [
     "Server is down",
     "Payment gateway is not working",
     "Images are not loading",
@@ -51,25 +57,32 @@ const descriptions = [
     "502 error",
     "503 error",
     "504 error"
-];
-const priorities = ['Critical', 'High', 'Medium', 'Low'];
-const statuses = ['To do', 'In progress', 'In review', 'Finished'];
+    ];
+    const priorities = ['Critical', 'High', 'Medium', 'Low'];
+    const statuses = ['To do', 'In progress', 'In review', 'Finished'];
+// Define the number of tickets in each status
 const todoCount = 17;
 const inProgressCount = 14;
 const inReviewCount = 15;
 const finishedCount = 40;
+
+// Initialize variables for ticket status and developer index
 let statusIndex = 0;
 const developers = ["Paul", "John", "Jane", "Bob", "Alice", "Tom"];
 let developerIndex = 0;
+
+// Define the current date
 const today = new Date();
 
+// Function to get a random project name
 const getRandomProject = () => {
     return projects[Math.floor(Math.random() * projects.length)];
-};
-
+    };
+    
+// Function to get a random problem description
 const getRandomProblems = () => {
-    return descriptions[Math.floor(Math.random() * descriptions.length)];
-};
+return descriptions[Math.floor(Math.random() * descriptions.length)];
+    };
 
 const seedDB = async () => {
     await Ticket.deleteMany();
